@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Simple Map</title>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<meta charset="utf-8">
+<style>
+html, body, #map-canvas {
+height: 100%;
+margin: 0px;
+padding: 0px
+}
+</style>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+<script>
+
+// array of map co-ordinates 
+var latLans = [
+['<h4>Flat</h4>', 51.564335,-0.1320235],
+['<h4>Flat</h4>', 51.565999,-0.1331123],
+['<h4>Flat</h4>', 51.566667,-0.1342456],
+['<h4>Flat</h4>', 51.567001,-0.1353789],
+
+];
+	var t = typeof latLans[0][1];
+	alert(t);
+	alert(latLans[0][1]);
+//alert(latLans[0][1]);
+
+//var map;
+
+// create location(s) on map (used in position of marker)
+//var location1 = new google.maps.LatLng(51.564335,-0.1320235);
+//var location1 = new google.maps.LatLng(latLans[1]);
+//alert(location1);
+// Use array 1
+//var location2 = new google.maps.LatLng(51.564000,-0.1320299);
+
+// create an information window
+var infowindow = new google.maps.InfoWindow({
+content:"Colin's house"
+});
+
+// Use array 1.1
+var infowindowNew = new google.maps.InfoWindow({
+content:"Other house"
+});
+
+function initialize() {
+
+// set map options (size and centre)
+var mapOptions = {
+zoom: 15,
+center: new google.maps.LatLng(51.564335,-0.1320235)
+};
+
+// create the map 
+map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+// create markers at the specified positions on map 
+var marker;
+var markers = new Array();
+
+for (var i = 0; i < latLans.length; i++) 
+{ 
+marker = new google.maps.Marker(
+{
+position: new google.maps.LatLng(latLans[i][1], latLans[i][2]), 
+map: map,
+}
+);
+markers.push(marker);
+}
+//alert(markers);
+
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+</head>
+<body>
+<div id="map-canvas"></div>
+</body>
+</html>

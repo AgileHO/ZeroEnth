@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Simple Map</title>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<meta charset="utf-8">
+<style>
+html, body, #map-canvas {
+height: 100%;
+margin: 0px;
+padding: 0px
+}
+</style>
+
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+<script>
+// style array to pass to map options
+var styleArray = [
+  {
+    featureType: "all",
+    stylers: [
+      { saturation: 30 }
+    ]
+  },{
+    featureType: "road.arterial",
+    elementType: "geometry",
+    stylers: [
+      { hue: "#00ffee" },
+      { saturation: 50 }
+    ]
+  },{
+    featureType: "poi.business",
+    elementType: "labels",
+    stylers: [
+      { visibility: "off" }
+    ]
+  }
+];
+
+// array of map co-ordinates 
+var latLans = [
+["<h4>Colin's flat</h4>", 51.564335,-0.1320235],
+['<h4>Harmans restaurant</h4>', 51.565999,-0.1331123],
+['<h4>Mother Red Cap</h4>', 51.566667,-0.1342456],
+["<h4>Kim's place</h4>", 51.567001,-0.1353789],
+["<h4>Whittington hospital</h4>", 51.569999,-0.1353289],
+];
+
+function initialize() {
+
+// set map options (size and centre)
+var mapOptions = {
+zoom: 15,
+center: new google.maps.LatLng(51.564335,-0.1320235),
+styles: styleArray
+};
+
+// create the map 
+map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+// create markers and info windows at the specified positions on map 
+var marker;
+var markers = new Array();
+
+for (var i = 0; i < latLans.length; i++) 
+{ 
+	marker = new google.maps.Marker(
+	{
+	position: new google.maps.LatLng(latLans[i][1], latLans[i][2]), 
+	map: map,
+	}
+	);	
+
+var infoWindow = new google.maps.InfoWindow(
+	{
+	content:latLans[i][0]
+	}
+	);
+	infoWindow.open(map,marker);
+
+//markers.push(marker);
+}
+
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+</head>
+<body>
+<div id="map-canvas"></div>
+</body>
+</html>
