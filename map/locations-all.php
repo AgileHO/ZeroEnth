@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <?php
 
+include("config.php");
+
 $locations = array();
-// Create connection
-$con=mysqli_connect("localhost","anonymous","horizon","test");
-// Check connection
-if (mysqli_connect_errno()) {
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-}
 
 // run query
 $result = mysqli_query($con,"SELECT * FROM locations");
