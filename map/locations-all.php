@@ -1,23 +1,34 @@
 <!DOCTYPE html>
 <?php
 
-// create a 2d array with some map data in it.  In php, 2d arrays are arrays of arrays.
+$locations = array();
+// Create connection
+$con=mysqli_connect("localhost","anonymous","horizon","test");
+// Check connection
+if (mysqli_connect_errno()) {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+}
 
-$locations = array(
-					    array('Colins flat', 51.564335, -0.1320235),
-    					array('Somewhere in Bromley', 51.4321171,-0.016429),
- );
+// run query
+$result = mysqli_query($con,"SELECT * FROM locations");
+
+/* loop through the result set, for every row in the set create an array that represents the location, then push the location into
+the locations (NB plural) array */
+$location=array();
+while($row = mysqli_fetch_array($result)) { 	
+  $location[0] = $row['name'];
+  $location[1] = $row['lat'];
+  $location[2] = $row['long'];
+  $locations[] = $location;
+}
 
 // take php array and turn it into json object
-
 $json = json_encode($locations);
 
-//inject the json object into js as a variable.
-
+//inject the json object into js as a variable called locationsData.
 echo <<<END
   <script type="text/javascript">
-	 var myData = $json;
-
+	 var locationsData = $json;
   </script>
 END;
 
@@ -27,10 +38,10 @@ END;
 
 <script>
 //declare variables
-var marker;
-var infoWindow;
-var map;
-var mapOptions;
+var marker; 	// a google maps marker, aka a 'pin'
+var infoWindow; // a google maps info window, you can attach it to a marker and stick html inside
+var map; 		// a google maps map
+var mapOptions; // configuration options for the google maps map
 
 // set map options (size and centre)
 mapOptions = {
@@ -45,21 +56,22 @@ function initialize() {
 map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
 // create markers and info windows at the specified positions on map 
-	for (var i = 0; i < myData.length; i++) 
+	for (var i = 0; i < locationsData.length; i++) 
 		{ 
+			//create a marker.  When you do this it adds to the map at the point you assign a map, so you can re-use the same marker object in the next iteration.
 			marker = new google.maps.Marker(
 				{
-				position: new google.maps.LatLng(myData[i][1], myData[i][2]), 
+				position: new google.maps.LatLng(locationsData[i][1], locationsData[i][2]), // read the coordinates of the location
 				map: map,
 				}
 			);	
-			var label=myData[i][0].toString();
-			infoWindow = new google.maps.InfoWindow(
+			var label=locationsData[i][0].toString();  		//read the name of the location
+			infoWindow = new google.maps.InfoWindow( 	
 				{
 				content:label
 				}
 			);
-			infoWindow.open(map,marker);
+			infoWindow.open(map,marker);				//put the info window on the map. You can then re-use the object in the next iteration.
 		}
 }
 // run initialize when the the page has loaded

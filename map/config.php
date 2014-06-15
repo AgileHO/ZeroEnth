@@ -1,8 +1,8 @@
 <?php
 
 $dbhost = 'localhost';
-$dbuser = 'admin';
-$dbpass = '';
+$dbuser = 'anonymous';
+$dbpass = 'horizon';
 
 $connMySQL = mysql_connect($dbhost, $dbuser, $dbpass) or die ('Error connecting to mysql');
 
