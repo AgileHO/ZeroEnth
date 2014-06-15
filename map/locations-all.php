@@ -1,77 +1,69 @@
 <!DOCTYPE html>
 <?php
-include("config.php");
-?>
-<?php
-// query database to get locations
 
-$locations = array();
-$sql = 'SELECT * FROM locations';
-$result = mysql_query($sql, $connMySQL);
+// create a 2d array with some map data in it.  In php, 2d arrays are arrays of arrays.
 
-while ($location = mysql_fetch_assoc($result))
-	{
-	$locations[] = $location;
-	}
+$locations = array(
+					    array('Colins flat', 51.564335, -0.1320235),
+    					array('Somewhere in Bromley', 51.4321171,-0.016429),
+ );
 
 // take php array and turn it into json object
 
 $json = json_encode($locations);
 
+//inject the json object into js as a variable.
+
 echo <<<END
   <script type="text/javascript">
-    var myData = $json;
-	//x = typeof(myData[0].id);
-	//x = typeof(myData[0]);
-	//alert(x);
+	 var myData = $json;
+
   </script>
 END;
+
 ?>
 
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-<script>
 
-function initialize() {
+<script>
+//declare variables
+var marker;
+var infoWindow;
+var map;
+var mapOptions;
 
 // set map options (size and centre)
-var mapOptions = {
-zoom: 14,
+mapOptions = {
+zoom: 11,
 center: new google.maps.LatLng(51.564335,-0.1320235),
-//styles: styleArray
 };
 
-// create the map 
+// do stuff with maps
+function initialize() {
+
+// put the map on the page where the map-canvas div is.
 map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
 // create markers and info windows at the specified positions on map 
-var marker;
-var markers = new Array();
-
 	for (var i = 0; i < myData.length; i++) 
 		{ 
-		marker = new google.maps.Marker(
-		{
-		//position: new google.maps.LatLng(latLans[i][1], latLans[i][2]), 
-		position: new google.maps.LatLng(myData[i].lat, myData[i].long), 	
-		map: map,
+			marker = new google.maps.Marker(
+				{
+				position: new google.maps.LatLng(myData[i][1], myData[i][2]), 
+				map: map,
+				}
+			);	
+			var label=myData[i][0].toString();
+			infoWindow = new google.maps.InfoWindow(
+				{
+				content:label
+				}
+			);
+			infoWindow.open(map,marker);
 		}
-		);	
-
-	var infoWindow = new google.maps.InfoWindow(
-		{
-		//content:latLans[i][0]
-		content:myData[i].name	
-		}
-		);
-		infoWindow.open(map,marker);
-
-		//markers.push(marker);
-	}
-
 }
-
+// run initialize when the the page has loaded
 google.maps.event.addDomListener(window, 'load', initialize);
-
 </script>
 <html>
 <head>
