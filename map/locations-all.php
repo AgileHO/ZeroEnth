@@ -6,7 +6,8 @@ include("config.php");
 $locations = array();
 
 // run query
-$result = mysqli_query($con,"SELECT * FROM locations");
+//$result = mysql_query($conn,"SELECT * FROM locations");
+$result = mysqli_query($connMySQL,"SELECT * FROM locations");
 
 /* loop through the result set, for every row in the set create an array that represents the location, then push the location into
 the locations (NB plural) array */

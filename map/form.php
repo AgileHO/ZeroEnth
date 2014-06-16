@@ -84,7 +84,8 @@ function test_input($data) {
 	{
 	//echo 'The form is ready to be processed';
 	$sql = "INSERT INTO `locations` (`name`, `lat`, `long`) VALUES ('$name', '$lat', '$long')";
-	mysql_query($sql, $connMySQL);
+	//mysqli_query($sql, $connMySQL);
+	mysqli_query($connMySQL, $sql);
 	echo 'You are now looped in';
 
 	}
