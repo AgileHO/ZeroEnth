@@ -10,7 +10,8 @@
 				
 		// Resource address (api call)
 		
-		$url = "http://localhost/rest/$name";
+		//$url = "http://localhost/rest/$name";
+		$url = "localhost/ZeroEnth/rest/$name";
 		//var_dump($url);
 		
 		// Send request to resource
