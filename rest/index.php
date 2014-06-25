@@ -6,13 +6,14 @@
 	if(!empty($_GET['name']))
 		{
 		$name = $_GET['name'];
-		$price = get_price($name);
+		//$price = get_price($name);
+		$bookDetails = get_price($name);
 
-	
-		if(empty($price))			
-			deliver_response(404,"book not found",NULL);
+		if(empty($bookDetails))
+			
+			deliver_response(201,"book not found",NULL);
 		else
-			deliver_response(200,"book found",$price);
+			deliver_response(200,"book found",$bookDetails);
 		}
 	else
 		{

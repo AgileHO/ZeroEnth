@@ -10,9 +10,7 @@
 				
 		// Resource address (api call)
 		
-		//$url = "http://localhost/rest/$name";
-		$url = "localhost/ZeroEnth/rest/$name";
-		//var_dump($url);
+		$url = "http://localhost/ZeroEnth/rest/$name";
 		
 		// Send request to resource
 		
@@ -25,7 +23,7 @@
 		
 		$response = curl_exec($client);
 		$result = json_decode($response);
-		//var_dump($result);
+		//var_dump($result->data->name);
 		
 		/*
 		if(!is_null($result->data))
@@ -39,8 +37,9 @@
 		*/
 		
 		// shorthand ternary version of commented out IF block above
-		echo (!is_null($result->data) ? $result->data  : "No book found. Might be out of stock or lost or something");		
-	
+		// echo (!is_null($result->data->price) ? 'Price: ' . $result->data->price .' Title: ' . $result->data->name .' Publisher: ' . $result->data->publisher : "No book found. Might be out of stock or lost or something");		
+		echo (isset($result->data->price) ? 'Price: ' . $result->data->price .' Title: ' . $result->data->name .' Publisher: ' . $result->data->publisher : "No book found. Might be out of stock or lost or something");		
+
 	}
 	
 ?>	
