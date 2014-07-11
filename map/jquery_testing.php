@@ -15,23 +15,15 @@ $locations = array();
 //$result = mysql_query($conn,"SELECT * FROM locations");
 $result = mysqli_query($connMySQL,"SELECT * FROM locations");
 
-/* loop through the result set, for every row in the set create an array that represents the location, then push the location into
-the locations (NB plural) array */
+/* loop through the result set, for every row push the location into
+the locations array */
 $locations=array();
 while($row = mysqli_fetch_array($result)) { 	
   array_push($locations, $row['name']);
- /* $location[1] = $row['lat'];
-  $location[2] = $row['long'];
-  $locations[] = $location; */
 }
 
 // take php array and turn it into json object
 $json = json_encode($locations);
-
-
-
-
-
 
 //inject the json object into js as a variable called locationsData.
 echo <<<END
@@ -71,29 +63,28 @@ var ddData = [
     }
 ];
 
- $(
+var availableTags = locationsData;
+
+
+$(
  	function() 
  	{
- 		var availableTags = locationsData;
+
 		$( "#where" ).autocomplete({source: availableTags});
-		$( "#optionspanel" ).accordion();
 		
-		$( "#clickme" ).click(function() {
-		$( "#optionspanel" ).toggle( "slow", function() {
+		$( "#clickme" ).click(function()
+		{
+		
+		$( "#optionspanel" ).toggle( "slow", function() {})
+		;}
+		);
+		
+		$('#myDropdown').ddslick(
+		{data:ddData,width:300,selectText: "How fit?",imagePosition:"right",onSelected: function(selectedData){
+		}   
 		});
-		});
-		
-		$('#myDropdown').ddslick({
-    	data:ddData,
-    	width:300,
-    	selectText: "How fit?",
-    	imagePosition:"right",
-    	onSelected: function(selectedData){
-    }   
-});
-		
-		
-				
+
+			
 	}
 );
 
@@ -129,8 +120,8 @@ Jquery testing
 
 <input type="text" id="where">
 
-<div id="clickme">show/hide</div>
-<div id="optionspanel">
+<div id="clickme">show/hide options</div>
+<div id="optionspanel" style="display:none">
 
 <p>
 Here are some options
@@ -141,10 +132,8 @@ Here are some options
 
 </div>
 
+
 <input type="submit" />
-
-
-
 
 
 </form>
