@@ -25,6 +25,26 @@ while($row = mysqli_fetch_array($result)) {
 // take php array and turn it into json object
 $json = json_encode($locations);
 
+function getLocs(){
+
+$locations = $_POST["locations"] ;
+
+// run query
+//$result = mysql_query($conn,"SELECT * FROM locations");
+$result = mysqli_query($connMySQL,"SELECT * FROM locations where name like '$locations'");
+
+/* loop through the result set, for every row push the location into
+the locations array */
+$locations=array();
+while($row = mysqli_fetch_array($result)) { 	
+  array_push($locations, $row['name']);
+}
+
+// take php array and turn it into json object
+$json = json_encode($locations);
+return $json;
+}
+
 //inject the json object into js as a variable called locationsData.
 echo <<<END
   <script type="text/javascript">
@@ -35,6 +55,31 @@ END;
 ?>
 
 <script>
+
+
+
+ 
+function ajaxCall(){
+var locations =  $(#where).text();
+        jQuery.ajax({ 
+                    crossDomain: true,
+                    type: 'GET', 
+                    url: 'http://localhost/ZeroEnth/map/jquery_testing1.php', 
+                    data: { 
+                    //function name within your php file on the server
+                    'action': 'getLocs',
+                    // varibales within your js file
+                    'locations': locations                                                 
+                    },
+                    success: function(data, textStatus, XMLHttpRequest){
+                    //if successful, add new content to the container
+                   return data
+                    }, 
+                    error: function(MLHttpRequest, textStatus, errorThrown){ 
+                    //alert(errorThrown); 
+                    } 
+                    });
+}
 
 var ddData = [
     {
@@ -70,7 +115,7 @@ $(
  	function() 
  	{
 
-		$( "#where" ).autocomplete({source: availableTags});
+		$( "#where" ).autocomplete({source: ajaxCall});
 		
 		$( "#clickme" ).click(function()
 		{
@@ -84,19 +129,7 @@ $(
 		}   
 		});
 
-		$('#selecctall').click(function(event) {  //on click 
-        if(this.checked) { // check select status
-            $('.checkbox1').each(function() { //loop through each checkbox
-                this.checked = true;  //select all checkboxes with class "checkbox1"               
-            });
-        }else{
-            $('.checkbox1').each(function() { //loop through each checkbox
-                this.checked = false; //deselect all checkboxes with class "checkbox1"                       
-            });         
-        }
-		});
-    
-
+			
 	}
 );
 
@@ -143,16 +176,7 @@ Here are some options
 
 
 </div>
-<ul class="chk-container">
-<li><input type="checkbox" id="selecctall"/> Selecct All</li>
-<li><input class="checkbox1" type="checkbox" name="check[]" value="item1"> This is Item 1</li>
-<li><input class="checkbox1" type="checkbox" name="check[]" value="item2"> This is Item 2</li>
-<li><input class="checkbox1" type="checkbox" name="check[]" value="item3"> This is Item 3</li>
-<li><input class="checkbox1" type="checkbox" name="check[]" value="item4"> This is Item 4</li>
-<li><input class="checkbox1" type="checkbox" name="check[]" value="item5"> This is Item 5</li>
-<li><input class="checkbox1" type="checkbox" name="check[]" value="item6"> This is Item 6</li>
-<li><input class="checkbox2" type="checkbox" name="check[]" value="item6"> Do not select this</li>
-</ul>
+
 
 <input type="submit" />
 
