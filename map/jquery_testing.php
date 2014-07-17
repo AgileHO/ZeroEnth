@@ -34,7 +34,19 @@ END;
 
 ?>
 
+<style type="text/css" media="screen">
+		.currentselectpanel
+		{
+			float: right;
+			width: 200px;
+			height: 300px;
+			background-color: #F63;
+		}
+		
+</style>
+
 <script>
+
 
 var ddData = [
     {
@@ -96,6 +108,30 @@ $(
         }
 		});
     
+		$("#where")
+		.focusout(function() {
+		var myVal= $(this).val();
+		$("#selectedplace").text(myVal);
+		})
+		
+		  
+
+	$('.checkbox1').click(function() {
+		//alert("Clicked");
+    	var $this = $(this);
+    	// $this will contain a reference to the checkbox   
+    	if ($this.is(':checked')) {
+    	myVal = $this.val();
+        // the checkbox was checked 
+        $("#selecteditem").text(myVal);
+    	} else {
+        // the checkbox was unchecked
+    	}
+});
+
+
+    
+    
 
 	}
 );
@@ -122,7 +158,19 @@ Jquery testing
 </h1>
 
 
+<div id="formdiv">
 <form>
+
+
+<div class="currentselectpanel">
+<h2>Current selection</h2>
+
+<strong>Place:</strong><div id="selectedplace" style="float:right">None selected</div>
+<br /><strong>Fitness:</strong><div id="selectedfitness" style="float:right">None selected</div>
+<br /><strong>Item:</strong><div id="selecteditem" style="float:right">None selected</div>
+
+
+</div>
 <label for="where">Where are you?</label>
 
 
@@ -146,7 +194,7 @@ Here are some options
 <ul class="chk-container">
 <li><input type="checkbox" id="selecctall"/> Selecct All</li>
 <li><input class="checkbox1" type="checkbox" name="check[]" value="item1"> This is Item 1</li>
-<li><input class="checkbox1" type="checkbox" name="check[]" value="item2"> This is Item 2</li>
+<li><input class="checkbox1" type="checkbox" name="check[]" value="item2" checked="true"> This is Item 2</li>
 <li><input class="checkbox1" type="checkbox" name="check[]" value="item3"> This is Item 3</li>
 <li><input class="checkbox1" type="checkbox" name="check[]" value="item4"> This is Item 4</li>
 <li><input class="checkbox1" type="checkbox" name="check[]" value="item5"> This is Item 5</li>
@@ -154,11 +202,14 @@ Here are some options
 <li><input class="checkbox2" type="checkbox" name="check[]" value="item6"> Do not select this</li>
 </ul>
 
-<input type="submit" />
+  <button type="submit" value="Submit">Submit</button>
+  <button type="reset" value="Reset">Reset</button>
 
 
 </form>
 
+
+</div>
 
 
 
