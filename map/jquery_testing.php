@@ -48,6 +48,7 @@ END;
 <script>
 
 
+
 var ddData = [
     {
         text: "Under 5",
@@ -93,6 +94,17 @@ $(
 		
 		$('#myDropdown').ddslick(
 		{data:ddData,width:300,selectText: "How fun?",imagePosition:"right",onSelected: function(selectedData){
+		 var messData = $('#myDropdown').data('ddslick').selectedItem.contents();
+		
+
+		// console.log(messData.firstChild.nodeValue);
+		console.log(messData);
+		
+
+
+		//dump(messData);
+		//alert(messData->description);
+		$("#selectedfitness").text(messData);
 		}   
 		});
 
@@ -124,6 +136,11 @@ $(
     	myVal = $this.val();
         // the checkbox was checked 
         $("#selecteditem").text(myVal);
+
+
+
+
+
     	} else {
         // the checkbox was unchecked
     	}
