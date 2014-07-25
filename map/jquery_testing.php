@@ -94,17 +94,16 @@ $(
 		
 		$('#myDropdown').ddslick(
 		{data:ddData,width:300,selectText: "How fun?",imagePosition:"right",onSelected: function(selectedData){
-		 var messData = $('#myDropdown').data('ddslick').selectedItem.contents();
+		var messData = $('#myDropdown').data('ddslick').selectedItem.contents();
 		
-
-		// console.log(messData.firstChild.nodeValue);
-		console.log(messData);
+		var lab = $(messData).children('label').text();
+		var messData = $(messData).children('small').text();
+		var messData1 = lab + ' ' + messData;
 		
+		//alert($(messData).children('small').text()); 
 
-
-		//dump(messData);
-		//alert(messData->description);
-		$("#selectedfitness").text(messData);
+		$("#selectedfitness").text(messData1);
+		
 		}   
 		});
 
